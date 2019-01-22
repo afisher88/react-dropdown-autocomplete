@@ -13,6 +13,10 @@ module.exports = {
     contentBase: path.join(__dirname, 'dist'),
     hot: true
   },
+  resolve: {
+    extensions: ['.js', '.jsx'],
+    enforceExtension: false
+  },
   module: {
     rules: [
       {

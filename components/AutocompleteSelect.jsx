@@ -1,11 +1,28 @@
 import React, { PureComponent } from 'react';
 import Downshift from 'downshift';
+import { debounce } from 'lodash-es';
+import { mockDataHandlerSuccess, mockDataHandlerFail } from '../mockResponse';
+import './AutocompleteSelect.scss';
 
 export default class AutocompleteSelect extends PureComponent {
+  constructor() {
+    super();
+
+    this.handleInputValueChange = debounce(this.handleInputValueChange, 1000);
+  }
+
+  handleInputValueChange = (value, stateAndHelpers) => {
+    console.log('running!');
+    mockDataHandlerSuccess(value).then(response => console.log(response));
+  };
+
   render() {
     return (
       <Downshift
         onChange={selection => alert(`You selected ${selection.value}`)}
+        onInputValueChange={(value, stateAndHelpers) =>
+          this.handleInputValueChange(value, stateAndHelpers)
+        }
         itemToString={item => (item ? item.value : '')}
       >
         {({
@@ -23,7 +40,8 @@ export default class AutocompleteSelect extends PureComponent {
             <input {...getInputProps()} />
             <ul {...getMenuProps()}>
               {isOpen
-                ? items
+                ? typeof items === 'object' &&
+                  items
                     .filter(
                       item => !inputValue || item.value.includes(inputValue)
                     )

@@ -17,6 +17,7 @@ module.exports = {
     extensions: ['.js', '.jsx'],
     enforceExtension: false
   },
+  devtool: isProd ? '' : 'inline-source-map',
   module: {
     rules: [
       {
@@ -42,8 +43,8 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              sourceMap: true,
-              includePaths: [path.resolve(__dirname, 'src', 'scss')]
+              sourceMap: true
+              // includePaths: [path.resolve(__dirname, 'src', 'scss')]
             }
           },
           {
@@ -82,12 +83,14 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'bundle.css'
+    })
+  ],
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'
-  },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new MiniCssExtractPlugin()
-  ]
+  }
 };

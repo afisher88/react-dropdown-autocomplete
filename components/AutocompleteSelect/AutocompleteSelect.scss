@@ -1,0 +1,21 @@
+.autocomplete-select__label {
+  display: block;
+}
+
+.autocomplete-select__input-wrapper {
+  position: relative;
+  max-width: 300px;
+  padding-right: 80px;
+
+  .lds-dual-ring {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%) scale(0.5);
+  }
+}
+
+.autocomplete-select__input {
+  margin-right: 1rem;
+  width: 100%;
+}

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import Downshift from 'downshift';
+import classnames from 'classnames';
 import { debounce } from 'lodash-es';
 import {
   mockDataHandlerSuccess,
@@ -28,6 +29,8 @@ export default class AutocompleteSelect extends PureComponent {
       mockDataHandlerSuccess(value).then(response =>
         this.setState({ items: response, loading: false })
       );
+    } else {
+      this.setState({ items: [] });
     }
   };
 
@@ -56,40 +59,49 @@ export default class AutocompleteSelect extends PureComponent {
         }) => (
           <div className={`${CSSname}`}>
             <label className={`${CSSname}__label`} {...getLabelProps()}>
-              Enter a fruit
+              Search Fruit
             </label>
-            <div className={`${CSSname}__input-wrapper`}>
-              <input className={`${CSSname}__input`} {...getInputProps()} />
+            <div className={`${CSSname}__inner-wrapper`}>
+              <input
+                className={`${CSSname}__input`}
+                {...getInputProps()}
+                placeholder="Please type a fruit name..."
+              />
               <LoadingSpinner spinning={loading} />
+              {isOpen ? (
+                <ul className={`${CSSname}__dropdown`} {...getMenuProps()}>
+                  {items.length > 0 &&
+                    items
+                      .filter(
+                        item => !inputValue || item.value.includes(inputValue)
+                      )
+                      .map((item, index) => (
+                        <li
+                          {...getItemProps({
+                            key: item.value,
+                            index,
+                            item
+                            // style: {
+                            //   backgroundColor:
+                            //     highlightedIndex === index
+                            //       ? 'lightgray'
+                            //       : 'white',
+                            //   fontWeight:
+                            //     selectedItem === item ? 'bold' : 'normal'
+                            // }
+                          })}
+                          className={classnames({
+                            [`${CSSname}__item`]: true,
+                            [`${CSSname}__item--selected`]: selectedItem,
+                            [`${CSSname}__item--highlighed`]: highlightedIndex
+                          })}
+                        >
+                          {item.value}
+                        </li>
+                      ))}
+                </ul>
+              ) : null}
             </div>
-            {isOpen ? (
-              <ul {...getMenuProps()}>
-                {items.length > 0 &&
-                  items
-                    .filter(
-                      item => !inputValue || item.value.includes(inputValue)
-                    )
-                    .map((item, index) => (
-                      <li
-                        {...getItemProps({
-                          key: item.value,
-                          index,
-                          item,
-                          style: {
-                            backgroundColor:
-                              highlightedIndex === index
-                                ? 'lightgray'
-                                : 'white',
-                            fontWeight:
-                              selectedItem === item ? 'bold' : 'normal'
-                          }
-                        })}
-                      >
-                        {item.value}
-                      </li>
-                    ))}
-              </ul>
-            ) : null}
           </div>
         )}
       </Downshift>

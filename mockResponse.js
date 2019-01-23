@@ -6,7 +6,7 @@ const items = [
   { value: 'banana' }
 ];
 
-const timeout = 1000;
+const timeout = 800;
 
 export const mockDataHandlerSuccess = function(value) {
   return new Promise((resolve, reject) => {

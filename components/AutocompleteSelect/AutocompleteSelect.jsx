@@ -40,6 +40,7 @@ export default class AutocompleteSelect extends PureComponent {
   };
 
   render() {
+    const { label, placeholder } = this.props;
     const { items, loading } = this.state;
 
     return (
@@ -64,15 +65,18 @@ export default class AutocompleteSelect extends PureComponent {
               [`${CSSname}--open`]: isOpen
             })}
           >
-            <label className={`${CSSname}__label`} {...getLabelProps()}>
-              Search Fruit
-            </label>
+            {label && (
+              <label className={`${CSSname}__label`} {...getLabelProps()}>
+                {label}
+              </label>
+            )}
+
             <div className={`${CSSname}__inner-wrapper`}>
               <div className={`${CSSname}__input-wrapper`}>
                 <input
                   className={`${CSSname}__input`}
                   {...getInputProps()}
-                  placeholder="Please type a fruit name..."
+                  placeholder={placeholder || undefined}
                 />
                 <button
                   type="button"

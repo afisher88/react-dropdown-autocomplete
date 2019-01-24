@@ -4,4 +4,11 @@ import AutocompleteSelect from './components/AutocompleteSelect/AutocompleteSele
 import './reset.css';
 import './boilerplate.css';
 
-render(<AutocompleteSelect />, document.getElementById('root'));
+render(
+  <AutocompleteSelect
+    label="Search fruit"
+    placeholder="Please type the name of a fruit.."
+    // onTextChangeFn={handleTyping}
+  />,
+  document.getElementById('root')
+);

@@ -4,7 +4,7 @@
 
 .autocomplete-select__inner-wrapper {
   position: relative;
-  max-width: 320px;
+  max-width: 400px;
   padding-right: 65px;
 
   .lds-dual-ring {
@@ -63,4 +63,8 @@
 .autocomplete-select__item--highlighted {
   background: #adb5ca;
   color: #fff;
+}
+
+.autocomplete-select__submit {
+  margin-left: 0.5rem;
 }

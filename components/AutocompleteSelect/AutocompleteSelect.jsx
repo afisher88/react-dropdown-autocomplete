@@ -76,6 +76,7 @@ export default class AutocompleteSelect extends PureComponent {
                 />
                 <button
                   type="button"
+                  className={`${CSSname}__submit`}
                   onClick={() => this.handleSubmit(selectedItem)}
                   disabled={!selectedItem}
                 >

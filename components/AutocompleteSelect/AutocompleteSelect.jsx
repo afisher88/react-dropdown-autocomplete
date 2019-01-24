@@ -24,24 +24,26 @@ export default class AutocompleteSelect extends PureComponent {
   }
 
   handleInputValueChange = (value, stateAndHelpers) => {
-    if (value.length > 1) {
+    if (stateAndHelpers.isOpen && value.length > 1) {
       this.setState({ loading: true });
-      mockDataHandlerSuccess(value).then(response =>
-        this.setState({ items: response, loading: false })
-      );
+      mockDataHandlerSuccess(value).then(response => {
+        console.log(response);
+        this.setState({ items: response, loading: false });
+      });
     } else {
       this.setState({ items: [] });
     }
   };
 
+  handleSubmit = selectedItem => {
+    console.log(selectedItem);
+  };
+
   render() {
     const { items, loading } = this.state;
 
-    console.log(items);
-
     return (
       <Downshift
-        onChange={selection => alert(`You selected ${selection.value}`)}
         onInputValueChange={(value, stateAndHelpers) =>
           this.handleInputValueChange(value, stateAndHelpers)
         }
@@ -53,54 +55,60 @@ export default class AutocompleteSelect extends PureComponent {
           getLabelProps,
           getMenuProps,
           isOpen,
-          inputValue,
           highlightedIndex,
           selectedItem
         }) => (
-          <div className={`${CSSname}`}>
+          <div
+            className={classnames({
+              [`${CSSname}`]: true,
+              [`${CSSname}--open`]: isOpen
+            })}
+          >
             <label className={`${CSSname}__label`} {...getLabelProps()}>
               Search Fruit
             </label>
             <div className={`${CSSname}__inner-wrapper`}>
-              <input
-                className={`${CSSname}__input`}
-                {...getInputProps()}
-                placeholder="Please type a fruit name..."
-              />
-              <LoadingSpinner spinning={loading} />
+              <div className={`${CSSname}__input-wrapper`}>
+                <input
+                  className={`${CSSname}__input`}
+                  {...getInputProps()}
+                  placeholder="Please type a fruit name..."
+                />
+                <button
+                  type="button"
+                  onClick={() => this.handleSubmit(selectedItem)}
+                  disabled={!selectedItem}
+                >
+                  Submit
+                </button>
+              </div>
               {isOpen ? (
                 <ul className={`${CSSname}__dropdown`} {...getMenuProps()}>
-                  {items.length > 0 &&
-                    items
-                      .filter(
-                        item => !inputValue || item.value.includes(inputValue)
-                      )
-                      .map((item, index) => (
+                  {items.length > 0
+                    ? items.map((item, index) => (
                         <li
                           {...getItemProps({
                             key: item.value,
                             index,
                             item
-                            // style: {
-                            //   backgroundColor:
-                            //     highlightedIndex === index
-                            //       ? 'lightgray'
-                            //       : 'white',
-                            //   fontWeight:
-                            //     selectedItem === item ? 'bold' : 'normal'
-                            // }
                           })}
                           className={classnames({
                             [`${CSSname}__item`]: true,
-                            [`${CSSname}__item--selected`]: selectedItem,
-                            [`${CSSname}__item--highlighed`]: highlightedIndex
+                            [`${CSSname}__item--selected`]:
+                              selectedItem === item,
+                            [`${CSSname}__item--highlighted`]:
+                              highlightedIndex === index
                           })}
                         >
                           {item.value}
                         </li>
-                      ))}
+                      ))
+                    : !loading && (
+                        <li className={`${CSSname}__item`}>No results</li>
+                      )}
                 </ul>
               ) : null}
+              <LoadingSpinner spinning={loading} />
             </div>
           </div>
         )}

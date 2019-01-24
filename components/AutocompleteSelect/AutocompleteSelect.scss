@@ -4,8 +4,8 @@
 
 .autocomplete-select__inner-wrapper {
   position: relative;
-  max-width: 300px;
-  padding-right: 80px;
+  max-width: 320px;
+  padding-right: 65px;
 
   .lds-dual-ring {
     position: absolute;
@@ -15,8 +15,12 @@
   }
 }
 
+.autocomplete-select__input-wrapper {
+  display: flex;
+  align-content: center;
+}
+
 .autocomplete-select__input {
-  margin-right: 1rem;
   width: 100%;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -26,17 +30,17 @@
   border-radius: 4px;
   box-sizing: border-box;
   height: 40px;
-  color: #6f737b;
-  font-size: 0.9rem;
-  padding: 10px;
+  // color: #6f737b;
+  font-size: 1rem;
+  padding: 0.5rem;
   width: 100%;
+}
 
-  &--selected {
-    font-weight: bold;
-  }
-
-  &--highlighted {
-    background: grey;
+.autocomplete-select--open {
+  .autocomplete-select__input {
+    border-bottom: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
   }
 }
 
@@ -46,4 +50,17 @@
   border-top: 0;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
+}
+
+.autocomplete-select__item {
+  padding: 0.5rem;
+}
+
+.autocomplete-select__item--selected {
+  font-weight: bold;
+}
+
+.autocomplete-select__item--highlighted {
+  background: #adb5ca;
+  color: #fff;
 }

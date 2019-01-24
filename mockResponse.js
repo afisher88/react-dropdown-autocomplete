@@ -9,9 +9,12 @@ const items = [
 const timeout = 800;
 
 export const mockDataHandlerSuccess = function(value) {
+  const sanitisedVal = value.toLowerCase();
+
+  console.info('Mock handler is running');
   return new Promise((resolve, reject) => {
     setTimeout(
-      () => resolve(items.filter(item => item.value.includes(value))),
+      () => resolve(items.filter(item => item.value.includes(sanitisedVal))),
       timeout
     );
   });
